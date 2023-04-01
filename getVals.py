@@ -1,3 +1,4 @@
+#Program that gets the fourier series info from outline of an image
 import math
 from invTrig import aTrig
 fin=open("dangVals.out","r")
