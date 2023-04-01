@@ -23,10 +23,11 @@ pg.init()
 fin=open("alex.out","r") #500
 #fin=open("RJLogoVals.out","r") #500
 #fin=open("dang.out","r") #500
+n=int(fin.readline())
 a,b=[float(x) for x in fin.readline().split()]
 arrows=[vector(b-math.pi/2,0,0,0,a)]
 prev=(0,0)
-for i in range(2,502):
+for i in range(2,n+2):
   a,b=[float(x) for x in fin.readline().split()]
   arrows.append(vector(b-math.pi/2,i//2*(i%2*2-1),0,0,a))
 lines=[]
@@ -44,7 +45,7 @@ while(True):
             quit()
   screen.fill((0,0,0))
   last=(0,0)
-  for arrow in arrows:
+  for arrow in arrows: #go through the arrows and update positions from parent to child
     arrow.x,arrow.y=last
     temp=pg.transform.scale(arrowt,(arrow.w,arrow.l))
     if(arrow!=arrows[0]):
@@ -56,11 +57,10 @@ while(True):
       prev=last
     lines.append((prev,last))
     prev=list(last)
-  for item in lines:
+  for item in lines: #draw the lines from the arrows
     pg.draw.line(screen,(255,255,255),item[0],item[1])
   pg.display.flip()
   clock.tick(60)
   x=(x+1)%360
   if(check and x==0):
     check=False
-#only 211 total lines from all files here and draw program :P (includes this comment)
