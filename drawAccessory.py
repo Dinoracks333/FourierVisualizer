@@ -12,18 +12,19 @@ all of the relevant information to draw the image (so you can just open it in th
 import pygame as pg
 pg.init()
 fout=open("alexpic.out","w") #specify output file name here
-screen = pg.display.set_mode((500, 500))
+size=500
+screen = pg.display.set_mode((size, size))
 clock = pg.time.Clock()
 image=pg.image.load("alexMe.jpeg")
 ratio=image.get_width()/image.get_height()
 ratio=min(ratio,1/ratio)
 if(image.get_width()<image.get_height()):
-  image=pg.transform.scale(image,(400*ratio,400))
+  image=pg.transform.scale(image,((size-100)*ratio,(size-100)))
 else:
-  image=pg.transform.scale(image,(400,400*ratio))
+  image=pg.transform.scale(image,((size-100),(size-100)*ratio))
 spots=[]
 def inside(x,y):
-  return x<500 and x>=0 and y<500 and y>=0
+  return x<size and x>=0 and y<size and y>=0
 def check(c1,c2):
   tot=0
   for i in range(3):
@@ -33,7 +34,7 @@ def findContrast(start,color,visited=set()):
   q=[list(start)]
   for i in range(400): #limit to 20x20 grid BFS
     s=q.pop(0)
-    key=500*s[1]+s[0]
+    key=size*s[1]+s[0]
     if(key in visited or not inside(s[0],s[1])):
       continue
     col=screen.get_at(s)
@@ -43,7 +44,7 @@ def findContrast(start,color,visited=set()):
     for j in range(-1,2):
       for k in range(-1,2):
         a,b=s[0]+j,s[1]+k
-        if(b*500+a in visited or not inside(a,b)):
+        if(b*size+a in visited or not inside(a,b)):
           continue
         q.append([a,b])
   return start
@@ -76,7 +77,7 @@ while(running):
             fout.write(str(spots[i-1][0]+slope[0]*x)+" "+str(spots[i-1][1]+slope[1]*x)+"\n")
         quit()
   screen.fill((0,0,0))
-  screen.blit(image,(50,50))
+  screen.blit(image,(size//10,size//10))
   for item in spots:
     pg.draw.circle(screen,(255,0,0),item,5)
   pg.display.flip()
