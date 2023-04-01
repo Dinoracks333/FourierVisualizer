@@ -1,3 +1,5 @@
+#arcsin and arctan are irrespective of actual quadrant and therefore do not always give
+#the correct angle, so I wrote this to deal with that
 import math
 def aTrig(c):
   length=(c.imag**2+c.real**2)**.5
